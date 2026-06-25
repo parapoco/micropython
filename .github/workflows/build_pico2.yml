@@ -27,3 +27,9 @@ jobs:
       run: |
         cd ports/rp2
         make BOARD=RPI_PICO2
+        
+    - name: Upload Firmware Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: pico2-firmware
+        path: ports/rp2/build-RPI_PICO2/firmware.uf2
