@@ -708,3 +708,7 @@ add_custom_command(
     COMMAND_EXPAND_LISTS
 )
 
+# 一番安全なタイミングで自作Cモジュールを合体
+target_sources(micropython PRIVATE
+    ${CMAKE_CURRENT_LIST_DIR}/modmdx.c
+)
