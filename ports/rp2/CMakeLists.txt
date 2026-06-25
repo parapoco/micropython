@@ -707,7 +707,4 @@ add_custom_command(
     VERBATIM
     COMMAND_EXPAND_LISTS
 )
-# 自作モジュール modmdx.c をビルド対象に追加
-target_sources(micropython PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../modmdx.c
-)
+
