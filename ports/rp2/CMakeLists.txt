@@ -711,6 +711,3 @@ add_custom_command(
 target_sources(micropython PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/../../modmdx.c
 )
-
-# 自作Cモジュールを安全に追加
-list(APPEND MICROPY_SOURCE_USERMOD ${CMAKE_CURRENT_SOURCE_DIR}/../../modmdx.c)
