@@ -26,7 +26,7 @@ jobs:
     - name: Build Pico 2 Firmware
       run: |
         cd ports/rp2
-        make BOARD=RPI_PICO2
+        make BOARD=RPI_PICO2 USER_C_MODULES=micropython.cmake
         
     - name: Upload Firmware Artifact
       uses: actions/upload-artifact@v4
