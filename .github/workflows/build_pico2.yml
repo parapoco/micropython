@@ -2,7 +2,7 @@ name: Build Pico2 Firmware
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "master" ]
   workflow_dispatch:
 
 jobs:
@@ -14,21 +14,16 @@ jobs:
       with:
         submodules: true
 
-    - name: Set up ARM GCC
-      uses: arm-software/cc-action@v1
-      with:
-        cpu: arm-none-eabi
-
-    - name: Install Dependencies
+    - name: Install Dependencies and ARM GCC
       run: |
         sudo apt-get update
-        sudo apt-get install -y cmake build-essential python3
+        sudo apt-get install -y cmake build-essential python3 gcc-arm-none-eabi libnewlib-arm-none-eabi
 
     - name: Build MicroPython Cross-Compiler
       run: |
         make -C mpy-cross
 
-    - name: Build Pico 2 W Firmware
+    - name: Build Pico 2 Firmware
       run: |
         cd ports/rp2
         make BOARD=RPI_PICO2
