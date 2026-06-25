@@ -15,9 +15,9 @@ jobs:
         submodules: true
 
     - name: Set up ARM GCC
-      uses: gcc-3b/setup-arm-gcc@v1
+      uses: arm-software/cc-action@v1
       with:
-        version: '13.2.Rel1'
+        cpu: arm-none-eabi
 
     - name: Install Dependencies
       run: |
