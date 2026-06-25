@@ -712,7 +712,5 @@ target_sources(micropython PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/../../modmdx.c
 )
 
-# マイクロパイソンにCモジュールとして正式登録
-target_compile_definitions(micropython PRIVATE
-    MODULE_MDX_ENABLED=1
-)
+# 自作Cモジュールを安全に追加
+list(APPEND MICROPY_SOURCE_USERMOD ${CMAKE_CURRENT_SOURCE_DIR}/../../modmdx.c)
