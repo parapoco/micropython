@@ -177,7 +177,6 @@ set(MICROPY_SOURCE_PORT
     msc_disk.c
     mbedtls/mbedtls_port.c
     ${CMAKE_BINARY_DIR}/pins_${MICROPY_BOARD}.c
-    modmdx.c
 )
 
 set(MICROPY_SOURCE_QSTR
