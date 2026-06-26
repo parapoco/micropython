@@ -21,6 +21,7 @@ static MP_DEFINE_CONST_FUN_OBJ_VAR_BETWEEN(mdx_init_i2s_obj, 3, 3, mdx_init_i2s)
 // mdx.play("ファイル名") のC言語側実装
 static mp_obj_t mdx_play(mp_obj_t path_obj) {
     const char *path = mp_obj_str_get_str(path_obj);
+    (void)path; // ★この行を追加してコンパイラを黙らせる！
     // ここで yunkya2 さんの再生ロジックを呼び出します
     return mp_const_none;
 }
