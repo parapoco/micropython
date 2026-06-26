@@ -1,0 +1,43 @@
+name: Build MicroPython for Pico 2 with Custom Module
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Clone MicroPython
+      run: |
+        git clone https://github.com/micropython/micropython.git
+        cd micropython
+        git submodule update --init --recursive lib/pico-sdk lib/tinyusb
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake gcc-arm-none-eabi build-essential Python3
+
+    - name: Build mpy-cross
+      run: |
+        make -C micropython/mpy-cross
+
+    - name: Build Pico 2 Firmware
+      run: |
+        cd micropython/ports/rp2
+        mkdir build
+        cd build
+        cmake .. -DPICO_BOARD=RPI_PICO2 -DUSER_C_MODULES=${{ github.workspace }}/mymodule
+        make
+
+    - name: Upload Firmware Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: micropython-pico2-custom
+        path: micropython/ports/rp2/build/firmware.uf2
