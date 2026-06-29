@@ -25,8 +25,6 @@ static mp_obj_t mdx_player_make_new(const mp_obj_type_t *type, size_t n_args, si
 
     return MP_OBJ_FROM_PTR(self);
 }
-
-// Python側: audio_data = player.render(1024) が呼ばれたときの処理
 static mp_obj_t mdx_player_render(mp_obj_t self_in, mp_obj_t samples_in) {
     // mp_obj_mdx_player_t *self = MP_OBJ_TO_PTR(self_in);
     int samples = mp_obj_get_int(samples_in);
@@ -34,20 +32,20 @@ static mp_obj_t mdx_player_render(mp_obj_t self_in, mp_obj_t samples_in) {
     // 1サンプル = ステレオ(2ch) * 16ビット(2バイト) = 4バイト 必要
     size_t bytes_needed = samples * 4;
 
-    // MicroPythonの bytes オブジェクト（バッファ）を自動確保
+    // MicroPythonの vstr を初期化
     vstr_t vstr;
     vstr_init_len(&vstr, bytes_needed);
     int16_t *samples_buffer = (int16_t *)vstr.buf;
 
     // ------------------------------------------------------------------
-    // 💡 【ここに元の「mdx_timer_callback」の中にあったデコード処理を引っ越し！】
-    //
-    // 元のコードで samples_buffer に対して行っていた、
-    // 「FM音源を計算して波形データを書き込む処理」をここにそのまま記述します。
+    // 💡 【ここに将来、FM音源のデコード処理が入ります】
+    // ⚠️ 今はまだ使っていないので、コンパイラに怒られないようおまじない
     // ------------------------------------------------------------------
+    (void)samples_buffer; 
 
-    // 計算した音データが詰まった bytes オブジェクトをPython側に返す
-    return mp_obj_new_str_from_vstr(&mp_type_bytes, &vstr);
+    // ⭕ 正しくは引数1つの「mp_obj_new_bytes_from_vstr」を使います！
+    return mp_obj_new_bytes_from_vstr(&vstr);
+}
 }
 static MP_DEFINE_CONST_FUN_OBJ_2(mdx_player_render_obj, mdx_player_render);
 
