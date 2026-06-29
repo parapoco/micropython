@@ -1,7 +1,7 @@
 # ports/rp2/mdx/micropython.cmake
 
-# モジュール（mdx）の定義
-mp_compile_user_cmodule(mdx)
+# ⭕ 古い呪文を廃止し、モジュール（usermod_mdx）を新方式で定義
+add_library(usermod_mdx INTERFACE)
 
 # コンパイル対象のCファイルを指定
 target_sources(usermod_mdx INTERFACE
@@ -22,3 +22,6 @@ target_include_directories(usermod_mdx INTERFACE
 target_link_libraries(usermod_mdx INTERFACE
     pico_audio_i2s
 )
+
+# ⭕ 最後にこのモジュールをMicroPython本体（usermod）へと結合する
+target_link_libraries(usermod INTERFACE usermod_mdx)
