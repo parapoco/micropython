@@ -18,10 +18,10 @@ set(MDX_SOURCES
 
 target_sources(usermod_mdx INTERFACE ${MDX_SOURCES})
 
-# ⭕【ここを強化】警告自体を完全に消し去るフラグ（-Wno-...）に変更しました
+# ⭕【ここをさらに強化】C++用の NULL 変換警告も完全に消し去るフラグ（-Wno-conversion-null）を追加
 foreach(src ${MDX_SOURCES})
     if(${src} MATCHES "\\.(c|cpp)$")
-        set_source_files_properties(${src} PROPERTIES COMPILE_FLAGS "-Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable")
+        set_source_files_properties(${src} PROPERTIES COMPILE_FLAGS "-Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable -Wno-conversion-null")
     endif()
 endforeach()
 
