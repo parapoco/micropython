@@ -4,7 +4,6 @@
 
 // --- [追加] Pico SDK とオーディオ・タイマー関連のインクルード ---
 #include "pico/stdlib.h"
-#include "pico/audio_i2s.h"
 #include "hardware/timer.h" 
 
 // --- [追加] mxdrvg 音源コアのインクルード ---
