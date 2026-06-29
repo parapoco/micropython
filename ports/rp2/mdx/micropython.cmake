@@ -18,13 +18,13 @@ set(MDX_SOURCES
 
 target_sources(usermod_mdx INTERFACE ${MDX_SOURCES})
 
-# ⭕【ここを修正】C言語とC++で、渡すフラグをきっちり分ける処理にしました
+# ⭕【ここをさらに強化】C++ファイルに 符号比較の警告を消すフラグ（-Wno-sign-compare）を追加
 foreach(src ${MDX_SOURCES})
     if(${src} MATCHES "\\.cpp$")
-        # C++ファイルには、NULL変換警告を消すフラグも含めて全部盛る
-        set_source_files_properties(${src} PROPERTIES COMPILE_FLAGS "-Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable -Wno-conversion-null")
+        # C++ファイル用のお守りフルセット
+        set_source_files_properties(${src} PROPERTIES COMPILE_FLAGS "-Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable -Wno-conversion-null -Wno-sign-compare")
     elseif(${src} MATCHES "\\.c$")
-        # C言語ファイルには、C++専用フラグを除外して安全に盛る
+        # C言語ファイル用
         set_source_files_properties(${src} PROPERTIES COMPILE_FLAGS "-Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable")
     endif()
 endforeach()
