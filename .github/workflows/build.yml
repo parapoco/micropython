@@ -24,12 +24,12 @@ jobs:
     - name: Build mpy-cross
       run: |
         make -C mpy-cross
-
-    # 🌟 [追加] ビルド前に mdxdata.inc を自動生成するステップ
+        
+    # 🌟 ファイル名を makemdxdata.py に修正！
     - name: Generate mdxdata.inc
       run: |
         cd ports/rp2/mdx
-        python3 makemdxlist.py mdxlist.txt > mdxdata.inc
+        python3 makemdxdata.py mdxlist.txt > mdxdata.inc
 
     # ⭕ 以前正常動作していた、あなたのリポジトリの make コマンドに戻しました
     - name: Build Pico 2 Firmware
