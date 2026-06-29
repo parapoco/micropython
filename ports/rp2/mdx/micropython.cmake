@@ -1,7 +1,7 @@
 # ports/rp2/mdx/micropython.cmake
 
 # モジュール（mdx）の定義
-micropython_add_user_cmodule(mdx)
+mp_compile_user_cmodule(mdx)
 
 # コンパイル対象のCファイルを指定
 target_sources(usermod_mdx INTERFACE
