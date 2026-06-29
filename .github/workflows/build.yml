@@ -18,7 +18,6 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt-get update
-        # ⭕ python3 を小文字に修正。ビルドに必要な libnewlib も追加
         sudo apt-get install -y cmake gcc-arm-none-eabi build-essential python3 libnewlib-arm-none-eabi
 
     - name: Build mpy-cross
@@ -28,24 +27,16 @@ jobs:
     - name: Generate mdxdata.inc
       run: |
         cd ports/rp2/mdx
-        # 🌟 スクリプト名の頭に `./` をつけます。後ろの引数は元のままで大丈夫です！
         python3 ./makemdxdata.py mdxlist.txt mdxdata.inc  
     
-    # ⭕ 以前正常動作していた、あなたのリポジトリの make コマンドに戻しました
     - name: Build Pico 2 Firmware
       run: |
         cd ports/rp2
         make BOARD=RPI_PICO2 USER_C_MODULES=$(pwd)/mdx
 
+    # ⭕ 重複していたステップを1つに統合し、確実に動くパスに修正しました
     - name: Upload Firmware Artifact
       uses: actions/upload-artifact@v4
       with:
         name: pico2-firmware
-        path: ports/rp2/build*/**/firmware.uf2
-
-    - name: Upload Firmware Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: pico2-firmware
-        # 🌟 path を以下のように書き換えてみてください
         path: ports/rp2/build-RPI_PICO2/firmware.uf2
