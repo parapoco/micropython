@@ -42,3 +42,10 @@ jobs:
       with:
         name: pico2-firmware
         path: ports/rp2/build*/**/firmware.uf2
+
+    - name: Upload Firmware Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: pico2-firmware
+        # 🌟 path を以下のように書き換えてみてください
+        path: ports/rp2/build-RPI_PICO2/firmware.uf2
