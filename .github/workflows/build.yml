@@ -28,8 +28,8 @@ jobs:
     - name: Generate mdxdata.inc
       run: |
         cd ports/rp2/mdx
-        # ⭕ 2つのファイルを引数として直接渡す正しい形に修正！
-        python3 makemdxdata.py mdxlist.txt mdxdata.inc   
+        # 🌟 ファイル名の頭に `./` を付けて、場所を正しく認識させます！
+        python3 makemdxdata.py ./mdxlist.txt ./mdxdata.inc   
     
     # ⭕ 以前正常動作していた、あなたのリポジトリの make コマンドに戻しました
     - name: Build Pico 2 Firmware
