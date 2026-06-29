@@ -61,7 +61,7 @@ static MP_DEFINE_CONST_DICT(mdx_player_locals_dict, mdx_player_locals_dict_table
 MP_DEFINE_CONST_OBJ_TYPE(
     mdx_player_type,
     MP_QSTR_Player,
-    MP_FLAG_NONE,
+    MP_TYPE_FLAG_NONE,
     make_new, mdx_player_make_new,
     locals_dict, &mdx_player_locals_dict
 );
