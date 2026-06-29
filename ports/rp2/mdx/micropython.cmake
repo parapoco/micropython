@@ -18,10 +18,10 @@ set(MDX_SOURCES
 
 target_sources(usermod_mdx INTERFACE ${MDX_SOURCES})
 
-# ⭕【ここを追加】gamdxの古いコード特有の「未使用警告」をエラーにしないおまじない
+# ⭕【ここを強化】警告自体を完全に消し去るフラグ（-Wno-...）に変更しました
 foreach(src ${MDX_SOURCES})
     if(${src} MATCHES "\\.(c|cpp)$")
-        set_source_files_properties(${src} PROPERTIES COMPILE_FLAGS "-Wno-error=unused-variable -Wno-error=unused-function")
+        set_source_files_properties(${src} PROPERTIES COMPILE_FLAGS "-Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable")
     endif()
 endforeach()
 
