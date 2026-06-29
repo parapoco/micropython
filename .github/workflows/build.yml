@@ -28,9 +28,8 @@ jobs:
     - name: Generate mdxdata.inc
       run: |
         cd ports/rp2/mdx
-        # 🌟 失敗したときだけ、ファイルの中身（エラー）を画面に表示して終了する設定
-        python3 makemdxdata.py mdxlist.txt > mdxdata.inc || (echo "=== ERROR REPORT ===" && cat mdxdata.inc && exit 1)
-   
+        # ⭕ 2つのファイルを引数として直接渡す正しい形に修正！
+        python3 makemdxdata.py mdxlist.txt mdxdata.inc   
     
     # ⭕ 以前正常動作していた、あなたのリポジトリの make コマンドに戻しました
     - name: Build Pico 2 Firmware
