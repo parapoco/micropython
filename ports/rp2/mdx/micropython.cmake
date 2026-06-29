@@ -2,12 +2,12 @@
 
 add_library(usermod_mdx INTERFACE)
 
-# 元のCMakeLists.txtに書かれていた「本物のファイル一覧」
+# ⭕ 今度こそフォルダ階層を完全に正しく直しました！
 target_sources(usermod_mdx INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}/modmdx.c
     ${CMAKE_CURRENT_LIST_DIR}/gamdx/downsample/downsample.cpp
     ${CMAKE_CURRENT_LIST_DIR}/gamdx/fmgen/fmgen.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/gamdx/fmtimer.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/gamdx/fmgen/fmtimer.cpp
     ${CMAKE_CURRENT_LIST_DIR}/gamdx/fmgen/opm.cpp
     ${CMAKE_CURRENT_LIST_DIR}/gamdx/mxdrvg/so.cpp
     ${CMAKE_CURRENT_LIST_DIR}/gamdx/mxdrvg/opm_delegate.cpp
