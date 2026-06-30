@@ -4,7 +4,7 @@ add_library(usermod_mdx INTERFACE)
 
 set(MDX_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/modmdx.c
-    ${CMAKE_CURRENT_LIST_DIR}/test_empty.cpp  # これだけにする
+    ${CMAKE_CURRENT_LIST_DIR}/gamdx/test_empty.cpp  # これだけにする
     #${CMAKE_CURRENT_LIST_DIR}/gamdx/downsample/downsample.cpp
     #${CMAKE_CURRENT_LIST_DIR}/gamdx/fmgen/fmgen.cpp
     #${CMAKE_CURRENT_LIST_DIR}/gamdx/fmgen/fmtimer.cpp
