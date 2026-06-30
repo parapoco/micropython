@@ -22,18 +22,37 @@ target_compile_definitions(usermod_mdx INTERFACE
     MDX_VOLUME=40
 )
 
-# 🌟 【修正】Pico 2 (RP2350) の基本フラグを壊さないように、安全にコンパイルオプションを追加する
-target_compile_options(usermod_mdx INTERFACE
-    # C++ (.cpp) ファイル専用の追加フラグ
-    $<$<COMPILE_LANGUAGE:CXX>:-Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable -Wno-conversion-null -Wno-sign-compare -fno-exceptions -fno-rtti -fno-use-cxa-atexit -fno-threadsafe-statics>
-    
-    # C (.c) ファイル専用の追加フラグ
-    $<$<COMPILE_LANGUAGE:C>:-Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable -Wno-implicit-function-declaration -Wno-builtin-declaration-mismatch -Wno-implicit-int -include math.h -include string.h>
-)
+# 🌟 音源ファイル「だけ」に安全にオプションを適用（本体には絶対に伝播させない）
+foreach(src ${MDX_SOURCES})
+    if(${src} MATCHES "\\.cpp$")
+        set_property(SOURCE ${src} APPEND PROPERTY COMPILE_OPTIONS
+            "-Wno-unused-variable"
+            "-Wno-unused-function"
+            "-Wno-unused-but-set-variable"
+            "-Wno-conversion-null"
+            "-Wno-sign-compare"
+            "-fno-exceptions"
+            "-fno-rtti"
+            "-fno-use-cxa-atexit"
+            "-fno-threadsafe-statics"
+        )
+    elseif(${src} MATCHES "\\.c$")
+        set_property(SOURCE ${src} APPEND PROPERTY COMPILE_OPTIONS
+            "-Wno-unused-variable"
+            "-Wno-unused-function"
+            "-Wno-unused-but-set-variable"
+            "-Wno-implicit-function-declaration"
+            "-Wno-builtin-declaration-mismatch"
+            "-Wno-implicit-int"
+            "-include" "math.h"
+            "-include" "string.h"
+        )
+    endif()
+endforeach()
 
 target_include_directories(usermod_mdx INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}
 )
 
-# ⭕ pico_audio_i2s のリンクを削除（MicroPython本体と喧嘩させないため）
+# ここで本体と繋ぐ（オプションの汚染は起きない）
 target_link_libraries(usermod INTERFACE usermod_mdx)
