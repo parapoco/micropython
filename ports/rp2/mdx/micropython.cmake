@@ -22,13 +22,14 @@ target_compile_definitions(usermod_mdx INTERFACE
     MDX_VOLUME=40
 )
 
-foreach(src ${MDX_SOURCES})
-    if(${src} MATCHES "\\.cpp$")
-        set_source_files_properties(${src} PROPERTIES COMPILE_FLAGS "-Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable -Wno-conversion-null -Wno-sign-compare -fno-exceptions -fno-rtti")
-    elseif(${src} MATCHES "\\.c$")
-        set_source_files_properties(${src} PROPERTIES COMPILE_FLAGS "-Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable -Wno-implicit-function-declaration -Wno-builtin-declaration-mismatch -Wno-implicit-int -include math.h -include string.h")
-    endif()
-endforeach()
+# 🌟 【修正】Pico 2 (RP2350) の基本フラグを壊さないように、安全にコンパイルオプションを追加する
+target_compile_options(usermod_mdx INTERFACE
+    # C++ (.cpp) ファイル専用の追加フラグ
+    $<$<COMPILE_LANGUAGE:CXX>:-Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable -Wno-conversion-null -Wno-sign-compare -fno-exceptions -fno-rtti -fno-use-cxa-atexit -fno-threadsafe-statics>
+    
+    # C (.c) ファイル専用の追加フラグ
+    $<$<COMPILE_LANGUAGE:C>:-Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable -Wno-implicit-function-declaration -Wno-builtin-declaration-mismatch -Wno-implicit-int -include math.h -include string.h>
+)
 
 target_include_directories(usermod_mdx INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}
