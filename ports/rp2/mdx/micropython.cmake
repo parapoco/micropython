@@ -8,7 +8,7 @@ set(MDX_SOURCES
     #${CMAKE_CURRENT_LIST_DIR}/gamdx/downsample/downsample.cpp
     ${CMAKE_CURRENT_LIST_DIR}/gamdx/fmgen/fmgen.cpp
     #${CMAKE_CURRENT_LIST_DIR}/gamdx/fmgen/fmtimer.cpp
-    #${CMAKE_CURRENT_LIST_DIR}/gamdx/fmgen/opm.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/gamdx/fmgen/opm.cpp
     #${CMAKE_CURRENT_LIST_DIR}/gamdx/mxdrvg/so.cpp
     #${CMAKE_CURRENT_LIST_DIR}/gamdx/mxdrvg/opm_delegate.cpp
     #${CMAKE_CURRENT_LIST_DIR}/gamdx/pcm8/pcm8.cpp
