@@ -504,15 +504,11 @@ void ym2151_update_one(int chip, int16_t **buffers, int length) {
     }
 }
 
+// YM2151.cpp の末尾に追加したラッパー関数の箇所
+
 void ym2151_set_volume(int chip, int volume) {
-    if (g_chip) g_chip->volume = volume;
+    if (g_chip) {
+        // 直接 volume = volume とせず、メソッド経由にする
+        g_chip->setVolume(volume); 
+    }
 }
-
-void ym2151_set_irq_handler(int chip, void (*handler)()) {
-    // 既存のYM2151クラスにはデバイスポインタを渡す引数があるため、
-    // ここで変換するか、クラス側のインターフェースを調整してください
-    // g_chip->irqhandler = handler; 
-}
-
-}
-// --- ↑ここまで ---
