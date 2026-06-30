@@ -2,27 +2,20 @@
 
 add_library(usermod_mdx INTERFACE)
 
-set(MDX_SOURCES
-    ${CMAKE_CURRENT_LIST_DIR}/modmdx.c
-    ${CMAKE_CURRENT_LIST_DIR}/gamdx/downsample/downsample.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/gamdx/fmgen/fmgen.cpp
-    #${CMAKE_CURRENT_LIST_DIR}/gamdx/fmgen/fmtimer.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/gamdx/fmgen/opm.cpp
-    #${CMAKE_CURRENT_LIST_DIR}/gamdx/mxdrvg/so.cpp
-    #${CMAKE_CURRENT_LIST_DIR}/gamdx/mxdrvg/opm_delegate.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/gamdx/pcm8/pcm8.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/gamdx/pcm8/x68pcm8.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/gamdx/mame/ym2151.cpp
-)
+# 1. gamdx フォルダ以下の .cpp と .c をすべて再帰的に自動収集
+file(GLOB_RECURSE GAMDX_SOURCES "${CMAKE_CURRENT_LIST_DIR}/gamdx/*.cpp" "${CMAKE_CURRENT_LIST_DIR}/gamdx/*.c")
+
+# 2. modmdx.c と 合体
+set(MDX_SOURCES ${CMAKE_CURRENT_LIST_DIR}/modmdx.c ${GAMDX_SOURCES})
 
 target_sources(usermod_mdx INTERFACE ${MDX_SOURCES})
 
-# 必要なマクロ定義のみ継承
+# 3. 必要なマクロ定義
 target_compile_definitions(usermod_mdx INTERFACE
     MDX_VOLUME=40
 )
 
-# 🌟 音源ファイル「だけ」に安全にオプションを適用（本体には絶対に伝播させない）
+# 4. コンパイルオプション（音源ファイル群に適用）
 foreach(src ${MDX_SOURCES})
     if(${src} MATCHES "\\.cpp$")
         set_property(SOURCE ${src} APPEND PROPERTY COMPILE_OPTIONS
@@ -37,22 +30,20 @@ foreach(src ${MDX_SOURCES})
             "-fno-threadsafe-statics"
         )
     elseif(${src} MATCHES "\\.c$")
-        set_property(SOURCE ${src} APPEND PROPERTY COMPILE_OPTIONS
+        set_property(SOURCE ${src} APPEND PROPERTY COMPLY_OPTIONS
             "-Wno-unused-variable"
             "-Wno-unused-function"
             "-Wno-unused-but-set-variable"
             "-Wno-implicit-function-declaration"
             "-Wno-builtin-declaration-mismatch"
             "-Wno-implicit-int"
-            "-include" "math.h"
-            "-include" "string.h"
         )
     endif()
 endforeach()
 
 target_include_directories(usermod_mdx INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}
+    ${CMAKE_CURRENT_LIST_DIR}/gamdx
 )
 
-# ここで本体と繋ぐ（オプションの汚染は起きない）
 target_link_libraries(usermod INTERFACE usermod_mdx)
