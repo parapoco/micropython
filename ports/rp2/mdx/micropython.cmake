@@ -12,7 +12,7 @@ set(MDX_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/gamdx/mxdrvg/opm_delegate.cpp
     ${CMAKE_CURRENT_LIST_DIR}/gamdx/pcm8/pcm8.cpp
     ${CMAKE_CURRENT_LIST_DIR}/gamdx/pcm8/x68pcm8.cpp
-    #${CMAKE_CURRENT_LIST_DIR}/gamdx/mame/ym2151.c
+    ${CMAKE_CURRENT_LIST_DIR}/gamdx/mame/ym2151.c
 )
 
 target_sources(usermod_mdx INTERFACE ${MDX_SOURCES})
