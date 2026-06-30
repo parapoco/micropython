@@ -462,3 +462,57 @@ void YM2151::refreshRegisters() {
         }
     }
 }
+// --- ↓以下を YM2151.cpp の末尾に追加してください ---
+
+// チップを制御するためのグローバルポインタ
+static YM2151* g_chip = nullptr;
+
+extern "C" {
+
+void ym2151_init(unsigned int clock, unsigned int rate) {
+    if (g_chip) delete g_chip;
+    g_chip = new YM2151(nullptr, clock, rate);
+}
+
+void ym2151_shutdown(void) {
+    if (g_chip) {
+        delete g_chip;
+        g_chip = nullptr;
+    }
+}
+
+void ym2151_reset_chip(int chip) {
+    if (g_chip) g_chip->resetChip();
+}
+
+void ym2151_write_reg(int chip, int reg, int data) {
+    if (g_chip) g_chip->writeReg(reg, data);
+}
+
+int ym2151_read_status(int chip) {
+    // もしステータスを返す関数が必要なら、YM2151クラスに実装するか、ここを調整してください
+    return 0; 
+}
+
+void ym2151_update_one(int chip, int16_t **buffers, int length) {
+    if (g_chip) {
+        // C言語側はステレオ(buffers[0], buffers[1])を想定していることが多いですが、
+        // あなたのupdateOneは buffer1本しか受け取れないため、片方のチャンネルだけ渡すか、
+        // YM2151.cppのupdateOneをステレオ対応に改造する必要があります。
+        // とりあえず動かすなら以下のようにします
+        g_chip->updateOne(buffers[0], length);
+    }
+}
+
+void ym2151_set_volume(int chip, int volume) {
+    if (g_chip) g_chip->volume = volume;
+}
+
+void ym2151_set_irq_handler(int chip, void (*handler)()) {
+    // 既存のYM2151クラスにはデバイスポインタを渡す引数があるため、
+    // ここで変換するか、クラス側のインターフェースを調整してください
+    // g_chip->irqhandler = handler; 
+}
+
+}
+// --- ↑ここまで ---
