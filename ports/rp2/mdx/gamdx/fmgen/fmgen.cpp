@@ -189,6 +189,7 @@ namespace FM
 //
 void MakeLFOTable()
 {
+	return; // ★１つ目：LFO用の sin や pow をスキップ
 	if (tablemade)
 		return;
 
@@ -334,6 +335,7 @@ void FM::Operator::Reset()
 
 void Operator::MakeTable()
 {
+	return; // ★2つ目：音源コア用の log や sin, pow をスキップ
 	// 対数テーブルの作成
 	assert(FM_CLENTS >= 256);
 
