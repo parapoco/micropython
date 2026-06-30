@@ -1,5 +1,15 @@
-// ports/rp2/mdx/modmdx.c (一時的な実験用ダミー)
+// ports/rp2/mdx/modmdx.c (実験ステップ2：楽曲データだけ戻す)
 #include "py/runtime.h"
+
+// 🌟 容疑者A：アセンブラによる楽曲埋め込みをテスト！
+__asm__ (
+  ".section .rodata\n"
+  ".balign 4\n"
+  ".global g_mdx_data\n"
+  "g_mdx_data:\n"
+  ".include \"mdxdata.inc\"\n"
+  ".section .text\n"
+);
 
 // 中身は何もせず、ただ正常に終了するだけのダミー関数
 static mp_obj_t mdx_init(void) {
