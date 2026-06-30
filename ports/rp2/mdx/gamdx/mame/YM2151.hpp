@@ -42,7 +42,7 @@ class YM2151 {
 public:
     YM2151(device_t* device, int clock, int rate);
     ~YM2151() = default;
-
+    void setVolume(int32_t vol) { this->volume = vol; }
     void resetChip();
     void writeReg(uint8_t reg, uint8_t data);
     void updateOne(int16_t* buffer, int length);
