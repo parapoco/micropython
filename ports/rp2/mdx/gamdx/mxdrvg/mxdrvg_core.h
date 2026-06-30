@@ -70,8 +70,8 @@ static void OPMINTFUNC(void);
 
 //static OPM_Delegate *OPM = OPM_Delegate::getFmgen();
 static OPM_Delegate *OPM = OPM_Delegate::getMame();
-static X68K::X68PCM8 PCM8;
-static X68K::DOWNSAMPLE DS;
+//static X68K::X68PCM8 PCM8;
+//static X68K::DOWNSAMPLE DS;
 
 /***************************************************************/
 
@@ -297,8 +297,8 @@ int MXDRVG_Start(
 
 	OPM->Init(4000000, G.INNERSAMPRATE, (G.OPMFILTER != 0));
 	OPM->SetIrqCallback(OPMINTFUNC);
-	PCM8.Init(G.INNERSAMPRATE);
-	DS.Init(G.INNERSAMPRATE, G.SAMPRATE, ((filtermode&1) == 0));
+	//PCM8.Init(G.INNERSAMPRATE);
+	//DS.Init(G.INNERSAMPRATE, G.SAMPRATE, ((filtermode&1) == 0));
 
 	OPM->SetVolume(-12);
 	PCM8.SetVolume(0);
