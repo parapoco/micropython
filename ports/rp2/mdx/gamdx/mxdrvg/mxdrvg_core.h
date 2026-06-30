@@ -72,22 +72,27 @@ static void OPMINTFUNC(void);
 static OPM_Delegate *OPM = OPM_Delegate::getMame();
 //static X68K::X68PCM8 PCM8;
 //static X68K::DOWNSAMPLE DS;
-// そのすぐ下にこれを追加する
+// ↓ここから新完全版をコピペして丸ごと上書きしてください
+
 struct DummyPCM8 {
     template<typename... Args> void Init(Args&&...) {}
     template<typename... Args> void SetVolume(Args&&...) {}
     template<typename... Args> void Mix(Args&&...) {}
     template<typename... Args> void Out(Args&&...) {}
     void Reset() {}
+    void Abort() {} // ←追加しました
 };
 
 struct DummyDS {
     template<typename... Args> void Init(Args&&...) {}
     template<typename... Args> int GetInSamplesForDownSample(int len) { return len; }
+    template<typename... Args> void DownSample(Args&&...) {} // ←追加しました
 };
 
-static DummyPCM8 PCM8; // 新しい身代わり
-static DummyDS DS;     // 新しい身代わり
+static DummyPCM8 PCM8; 
+static DummyDS DS;     
+
+// ↑ここまで
 /***************************************************************/
 
 static UBYTE FAKEA6S0004[256];
