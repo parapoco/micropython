@@ -15,7 +15,8 @@ bool YM2151::tables_initialized = false;
 YM2151::YM2151(device_t* device, int clock, int rate)
     : device(device), clock(clock) {
     
-    std::memset(oper.data(), 0, sizeof(YM2151Operator) * 32);
+    // 修正：memsetを廃止し、C++の安全な初期化に変更
+    oper.fill(YM2151Operator());
 
     if (!tables_initialized) {
         initTables();
@@ -91,7 +92,8 @@ void YM2151::initChipTables() {
 // チップリセット
 void YM2151::resetChip() {
     for (int i = 0; i < 32; i++) {
-        std::memset(&oper[i], '\0', sizeof(YM2151Operator));
+        // 修正：memsetを廃止し、構造体のデフォルト値を代入
+        oper[i] = YM2151Operator();
         oper[i].state = EgState::OFF;
         oper[i].volume = MAX_ATT_INDEX;
         oper[i].kc_i = 768;
@@ -481,8 +483,9 @@ void YM2151::updateOne(int16_t* buffer, int length) {
         if (outl > MAXOUT) outl = MAXOUT; else if (outl < MINOUT) outl = MINOUT;
         if (outr > MAXOUT) outr = MAXOUT; else if (outr < MINOUT) outr = MINOUT;
 
-        *buffer++ = static_cast<int16_t>((outl * this->volume) >> 14);
-        *buffer++ = static_cast<int16_t>((outr * this->volume) >> 14);
+        // 修正：double型の乗算結果を一度整数にキャストしてからビットシフトする
+        *buffer++ = static_cast<int16_t>(static_cast<int32_t>(outl * this->volume) >> 14);
+        *buffer++ = static_cast<int16_t>(static_cast<int32_t>(outr * this->volume) >> 14);
 
         if (tim_A) {
             tim_A_val -= (1 << TIMER_SH);
