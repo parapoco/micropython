@@ -2,7 +2,7 @@
 
 add_library(usermod_mdx INTERFACE)
 
-# ⭕ 今度こそフォルダ階層を完全に正しく直しました！
+# ⭕ 今度こそフォルダ階層を完全に正しく直しました！！
 target_sources(usermod_mdx INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}/modmdx.c
     ${CMAKE_CURRENT_LIST_DIR}/gamdx/downsample/downsample.cpp
