@@ -18,15 +18,19 @@ jobs:
       - name: Build mpy-cross
         run: make -C mpy-cross
 
-      - name: Init submodules and build firmware
+      - name: Build firmware
         working-directory: ports/rp2
         run: |
           make submodules
+          cp -r boards/RPI_PICO2 boards/WEACT_RP2350A_16MB
+          sed -i 's/PICO_FLASH_SIZE_BYTES 4194304/PICO_FLASH_SIZE_BYTES 16777216/g' boards/WEACT_RP2350A_16MB/mpconfigboard.cmake
+          echo '#undef MICROPY_HW_FLASH_STORAGE_BYTES' >> boards/WEACT_RP2350A_16MB/mpconfigboard.h
+          echo '#define MICROPY_HW_FLASH_STORAGE_BYTES (15 * 1024 * 1024)' >> boards/WEACT_RP2350A_16MB/mpconfigboard.h
           make BOARD=WEACT_RP2350A_16MB -j$(nproc)
 
       - name: Upload firmware.uf2
         uses: actions/upload-artifact@v4
         with:
           name: weact-rp2350a-16mb-firmware
-          path: ports/rp2/build-WEACT_RP2350A_16MB/**/*.uf2
+          path: ports/rp2/build-WEACT_RP2350A_16MB/firmware.uf2
           if-no-files-found: error
