@@ -1,0 +1,2 @@
+include(${CMAKE_CURRENT_LIST_DIR}/../RPI_PICO2/mpconfigboard.cmake)
+set(PICO_FLASH_SIZE_BYTES 16777216)
