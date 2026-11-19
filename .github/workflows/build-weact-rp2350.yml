@@ -28,4 +28,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: weact-rp2350a-16mb-firmware
-          path: ports/rp2/build-WEACT_RP2350A_16MB/firmware.uf2
+          path: ports/rp2/build-WEACT_RP2350A_16MB/**/*.uf2
+          if-no-files-found: error
+
