@@ -1,0 +1,31 @@
+name: Build WeAct RP2350A 16MB
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install ARM toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake build-essential gcc-arm-none-eabi libnewlib-arm-none-eabi python3
+
+      - name: Build mpy-cross
+        run: make -C mpy-cross
+
+      - name: Init submodules and build firmware
+        working-directory: ports/rp2
+        run: |
+          make submodules
+          make BOARD=WEACT_RP2350A_16MB -j$(nproc)
+
+      - name: Upload firmware.uf2
+        uses: actions/upload-artifact@v4
+        with:
+          name: weact-rp2350a-16mb-firmware
+          path: ports/rp2/build-WEACT_RP2350A_16MB/firmware.uf2
